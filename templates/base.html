@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        {% load staticfiles %}
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a href="http://www.buffalo.edu/" class="navbar-brand">
+                        <img src="http://www.buffalo.edu/static.1465393709/etc/designs/ubcms/images/ubheader/ub-logo.png" height="35px" alt="UB Logo"/>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <h3>Stevens Breakout Room Reservation System</h3><hr>
+            {% block content %}{% endblock %}
+            {% block limits%}{% endblock %}
+        </div>
+    {% block js %}{% endblock %}
+    </body>
+</html>

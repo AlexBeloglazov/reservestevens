@@ -1,0 +1,83 @@
+body {
+    /*background-color: #eeeeee;*/
+}
+
+.navbar {
+    border-radius: 0px;
+    background-color: #005bbb;
+    border: 0px;
+    border-bottom: 1px solid;
+    border-color: white;
+    box-shadow: 0px 2px 5px #888888;
+}
+
+.navbar-brand {
+    padding-top: 7px;
+}
+
+.time {
+    font-size: 11px;
+    height: 40px;
+    line-height: 40px;
+    border: 1px solid #d5ddd0;
+    /*border-radius: 1px;*/
+    margin: 1px -1px;
+    /*padding: 10px 5px;*/
+    background-color: #F7FFF2;
+    /*#fafafa;*/
+    cursor: default;
+}
+
+.booked {
+    background-color: #ffe6e6;
+    border-color: #ddb4b4;
+    cursor: not-allowed;
+}
+
+.selected {
+    /*box-shadow: 0px 0px 1px #7FB85C;*/
+    border: 1px #B9DBAD solid;
+    /*outline: 1px solid #dddddd;*/
+    background-color: #E8F2E1;
+    z-index: 100;
+}
+
+.box {
+    border: 1px solid #f0f0f0;
+    background-color: #ffffff;
+    padding: 15px 15px;
+    margin-bottom: 10px;
+}
+
+.bd {
+    border: 1px solid black;
+}
+
+.timerow {
+    margin: 0px;
+}
+
+.hidden {
+    display: none;
+}
+
+.button {
+    font-variant: small-caps;
+    display: inline-block;
+    color: white;
+    padding: 4px 15px 6px 15px;
+    background-color: rgb(154, 154, 154);
+    border: 1px rgb(150, 150, 150);
+    border-radius: 15px;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: rgb(58, 86, 168);
+}
+
+@media (min-width: 1200px) {
+.container {
+    width: 970px;
+}
+}

@@ -1,0 +1,75 @@
+
+{% extends 'base.html' %}
+
+{% block title %} Book a room you deserve {% endblock %}
+{% block content %}
+
+<h4>Reservation for {{ date }}</h4><br>
+{% if already_reserved == 2 %}
+<p>
+    Our system says you already reached maximum limit of <strong>{{already_reserved}}</strong> reservations per person.
+</p>
+<p>
+    To continue you would have to <u>cancel</u> one of your previous reservations.
+    If you would like to do so, please click <a href="{% url 'revoke-index' %}">here</a>.
+</p><br><br>
+<div class="button">close page</div>
+{% endif %}
+{% if already_reserved < 2 %}
+<p>
+    Please choose any available time slot and click "Submit" button to complete reservation.
+</p>
+<p>
+    Time slots you can reserve: <strong id="max_reserv">{{available}}</strong>
+</p><br>
+<div class="row">
+    <form class="" action="{% url 'book-index' %}?day={{day}}" method="post">
+    {% csrf_token %}
+    <div class="col-lg-4 col-md-4">
+        <div class="box">
+            Room #1 <br>
+            Occupancy: x people <br><br>
+            Room description <br> <hr>
+            <div class="row timerow">
+                {% for time, r_one, r_two, r_three in rooms_time %}
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center {% if r_one %}booked{% endif %}">
+                    {{time}}<input class="hidden" type="checkbox" name="room1" value="{{forloop.counter0}}">
+                </div>{% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="box">
+            Room #2 <br>
+            Occupancy: x people <br><br>
+            Room description <br> <hr>
+            <div class="row timerow">
+                {% for time, r_one, r_two, r_three in rooms_time %}
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
+                {% if r_two %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room2" value="{{forloop.counter0}}"></div>{% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4">
+        <div class="box">
+            Room #3 <br>
+            Occupancy: x people <br> <br>
+            Room description <br> <hr>
+            <div class="row timerow">
+                {% for time, r_one, r_two, r_three in rooms_time %}
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
+                {% if r_three %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room3" value="{{forloop.counter0}}"></div>{% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<button class="btn btn-default" type="submit" name="day" value="{{day}}">Submit</button>
+</form>
+{# <img src="/static/busy.gif" width="25" height="25" alt="" />#}
+{# <button type="button" name="Click me" onclick="test();">Click me</button>#}
+{% endif %}
+{% endblock %}
+
+{%block js%}{% load staticfiles %}
+<script src="{% static 'helpers.js' %}"></script>
+{% endblock %}
