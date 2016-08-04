@@ -1,6 +1,7 @@
-var MAX_SELECTED = parseInt(document.getElementById('max_reserv').innerHTML)
+var max = document.getElementById('max_reserv');
+var MAX_SELECTED = max ? parseInt(max.innerHTML) : 9999;
 var selected = 0;
-var but = document.getElementById('submit')
+var but = document.querySelector('button[type="submit"]')
 
 function reset_checkboxes() {
     var inputs = document.getElementsByTagName("input");
@@ -12,8 +13,9 @@ function reset_checkboxes() {
 }
 
 function toggle_checkbox(elmnt) {
-    var chkbox = elmnt.querySelector('input');
-    chkbox.checked = chkbox.checked ? false : true;
+    var chkbox = elmnt.querySelector('.time > input');
+    if (chkbox)
+        chkbox.checked = chkbox.checked ? false : true;
 }
 
 function click_handler() {
@@ -35,25 +37,13 @@ function click_handler() {
 }
 
 function assign_click_handler() {
-    all_periods = document.getElementsByClassName('time');
+    all_periods = document.getElementsByClassName('select');
     for(var i=0; i<all_periods.length; i++) {
         if (!all_periods[i].classList.contains("booked"))
             all_periods[i].addEventListener("click", click_handler);
     }
 }
 
-function test() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://127.0.0.1:8000/book/?1', true);
-    xhr.send();
-    xhr.addEventListener("readystatechange", processRequest, false);
-    function processRequest(e) {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            // var resp = JSON.parse(xhr.responseText);
-            alert("cool");
-        }
-    }
-}
 
 assign_click_handler();
 reset_checkboxes();

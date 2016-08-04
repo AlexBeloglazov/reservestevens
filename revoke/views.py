@@ -30,10 +30,10 @@ def index(request):
         for i in chosen:
             try:
                 day, room, period = reserved[int(i)]
+                Reservation.objects.filter( date=helpers.calc_day(day).isoformat(),
+                                            room=room, period=period, ubnumber=int(ubn))[0].delete()
             except (ValueError, IndexError) as e:
                 return HttpResponseBadRequest('Bad POST Request')
-            Reservation.objects.filter( date=helpers.calc_day(day).isoformat(),
-                                        room=room, period=period, ubnumber=int(ubn))[0].delete()
         return render(request, 'revoke/success.html', {'n': len(chosen)})
     else:
         return HttpResponseBadRequest('Bad Request')

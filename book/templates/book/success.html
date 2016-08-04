@@ -5,8 +5,12 @@
 
 <h4>Reservation for {{ date }}</h4><br>
 
-<p>
-
-</p>
-
+    <strong>Congratulations!</strong><br>You successfully completed following reservations:
+    <div class="" style="display: inline-block; vertical-align: top; margin: 0px 0px 10px 15px;">
+        {% for reservation in reserved %}
+        <span style="display:table;"><mark>{{reservation.0}}, Period: {{reservation.1}}</mark></span>
+        {% endfor %}
+    </div>
+     <p>We have send a confirmation letter to your email address.</p><br>
+     <p>Thank you for using our system.</p>
 {% endblock %}

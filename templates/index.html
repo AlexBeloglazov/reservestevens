@@ -9,10 +9,6 @@
         To reserve room/rooms for <strong>{{ second }}</strong> please click <a href="{% url 'book-index' %}?day=1">here</a>
     </p><br>
     <p>
-        If you want to <strong><u>cancel</u></strong> your previous reservation click <a href="{% url 'revoke-index' %}">here</a>
+        If you want to <strong><u>cancel</u></strong> one of your current reservations click <a href="{% url 'revoke-index' %}">here</a>
     </p>
-    {# <ul class="row btn-toolbar bd" style="list-style: none; padding: 0px 5px;">#}
-        {# <li class="col-lg-3 text-center time booked">Second</li>#}
-        {# <li class="col-lg-3 text-center time">First</li>#}
-    {# </ul>#}
 {% endblock %}

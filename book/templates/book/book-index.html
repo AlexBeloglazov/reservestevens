@@ -11,9 +11,9 @@
 </p>
 <p>
     To continue you would have to <u>cancel</u> one of your previous reservations.
-    If you would like to do so, please click <a href="{% url 'revoke-index' %}">here</a>.
+    If you would like to do so, please click the button below.
 </p><br><br>
-<div class="button">close page</div>
+<a href="{% url 'revoke-index' %}" class="button">my reservations</a>
 {% endif %}
 {% if already_reserved < 2 %}
 <p>
@@ -27,12 +27,12 @@
 <div class="row">
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #0 <br>
+            {{rooms.0}} <br>
             Occupancy: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}
-                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center {% if r_zero %}booked{% endif %}">
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 select time text-center {% if r_zero %}booked{% endif %}">
                     {{time}}<input class="hidden" type="checkbox" name="room0" value="{{forloop.counter0}}">
                 </div>{% endfor %}
             </div>
@@ -40,32 +40,32 @@
     </div>
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #1 <br>
+            {{rooms.1}} <br>
             Occupancy: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}
-                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 select time text-center
                 {% if r_one %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room1" value="{{forloop.counter0}}"></div>{% endfor %}
             </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #2 <br>
+            {{rooms.2}} <br>
             Occupancy: x people <br> <br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}
-                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 select time text-center
                 {% if r_two %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room2" value="{{forloop.counter0}}"></div>{% endfor %}
             </div>
         </div>
     </div>
-</div>
+</div><br>
 <a href="{% url 'index' %}" class="button"><span class="glyphicon glyphicon-chevron-left"></span> go back</a>
-<button id="submit" class="button" disabled type="submit" name="day" value="{{day}}"><span class="glyphicon glyphicon-plus"></span> add reservation</button>
-</form>
+<button class="button" disabled type="submit" name="day" value="{{day}}"><span class="glyphicon glyphicon-plus"></span> add reservation</button>
+</form><br>
 {# <img src="/static/busy.gif" width="25" height="25" alt="" />#}
 {# <button type="button" name="Click me" onclick="test();">Click me</button>#}
 {% endif %}
