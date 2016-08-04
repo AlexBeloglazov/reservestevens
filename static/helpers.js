@@ -1,6 +1,6 @@
 var MAX_SELECTED = parseInt(document.getElementById('max_reserv').innerHTML)
 var selected = 0;
-
+var but = document.getElementById('submit')
 
 function reset_checkboxes() {
     var inputs = document.getElementsByTagName("input");
@@ -10,6 +10,7 @@ function reset_checkboxes() {
                 inputs[i].checked = false;
     }
 }
+
 function toggle_checkbox(elmnt) {
     var chkbox = elmnt.querySelector('input');
     chkbox.checked = chkbox.checked ? false : true;
@@ -28,6 +29,9 @@ function click_handler() {
         toggle_checkbox(this);
         selected--;
     }
+    if (selected > 0)
+        but.removeAttribute('disabled');
+    else but.setAttribute('disabled','');
 }
 
 function assign_click_handler() {

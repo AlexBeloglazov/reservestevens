@@ -11,6 +11,8 @@ N_ROOMS = 3
 DELTAS = ['0', '1']
 MAX_RESERVATIONS = 2
 
+ROOMS = ['Room#0', 'Room#1', 'Room#2']
+
 PERIODS = [ '8:00 AM - 10:00 AM',
             '10:00 AM - 12:00 AM',
             '12:00 AM - 2:00 PM',
@@ -34,15 +36,9 @@ def index(request):
         rooms = []
         # looping through all rooms
         for i in range(N_ROOMS):
-            # get reservations for i-th room
-            rooms.append(reservations.filter(room=i+1))
-            # if room with booked timeslots
-            if len(rooms[i]):
-                # get list of timeslots with values
-                rooms[i] = rooms[i][0].to_list()
-            # all time slots are available
-            else:
-                rooms[i] = [0 for i in PERIODS]
+            rooms.append([])
+            for period in range(len(PERIODS)):
+                rooms[i].append(reservations.filter(room=i, period=period).exists())
         already_reserved = len(helpers.get_reserved(ubn))
         context = { 'date': date.strftime('%A, %B %d %Y'),
                     'day': delta,
@@ -54,12 +50,12 @@ def index(request):
         #-------- GET UB# from request #--------
         ubn = 1234
         #---------------------------------------
-        print(request.POST)
+        # print(request.POST)
         # handle empty POST request
-        if 'room1' not in request.POST and 'room2' not in request.POST and 'room3' not in request.POST:
+        if 'room0' not in request.POST and 'room1' not in request.POST and 'room2' not in request.POST:
             return HttpResponseBadRequest('You did not choose any time frame')
-        # parse POST equest and get list of chosen periods for every room
-        rooms = [request.POST.getlist('room1'), request.POST.getlist('room2'), request.POST.getlist('room3')]
+        # parse POST request and get list of chosen periods for every room
+        rooms = [request.POST.getlist('room0'), request.POST.getlist('room1'), request.POST.getlist('room2')]
         delta = request.POST.get('day', -1)
         if (sum([len(i) for i in rooms]) + len(helpers.get_reserved(ubn))) > MAX_RESERVATIONS:
             return HttpResponseBadRequest('Oops... something bad happened. You try to reserve too much')
@@ -70,15 +66,11 @@ def index(request):
         reservations = Reservation.objects.filter(date=date)
         for i, room in enumerate(rooms):
             for period in room:
-                refined = reservations.filter(room=i+1)
-                # if record for requested room exists
-                if refined.exists():
-                    # try to reserve
-                    if not refined[0].reserve(int(period), ubn):
-                        return HttpResponseBadRequest('Already reserved')
+                if reservations.filter(room=i, period=period).exists():
+                    return HttpResponseBadRequest('Already reserved')
                 # create new record for a room
                 else:
-                    Reservation(date=date, room=i+1).reserve(int(period), ubn)
+                    Reservation(date=date, room=i, period=period, ubnumber=ubn).save()
         return HttpResponse("Success!")
     else:
         return HttpResponseBadRequest("Bad Request")

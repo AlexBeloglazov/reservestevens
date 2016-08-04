@@ -2,5 +2,30 @@
 
 {% block title %} Choose room to revoke {% endblock %}
 {% block content %}
-    <h2>Room revooking page</h2>
+    <h2>Room revooking page</h2><br><br>
+    <form class="" action="" method="post">
+        {% csrf_token %}
+        <table class="table table-condensed table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Date</th>
+                    <th>Room</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for day, room, period in reservations %}
+                <tr>
+                    <td><input type="checkbox" name="chosen" value="{{forloop.counter0}}"></td>
+                    <td>{{day}}</td>
+                    <td>{{room}}</td>
+                    <td>{{period}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table><br>
+        <a href="{% url 'index' %}" class="button"><span class="glyphicon glyphicon-chevron-left"></span> go back</a>
+        <button class="button" type="submit" name="button">cancel</button>
+    </form>
 {% endblock %}

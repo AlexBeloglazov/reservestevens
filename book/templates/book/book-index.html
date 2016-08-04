@@ -22,48 +22,49 @@
 <p>
     Time slots you can reserve: <strong id="max_reserv">{{available}}</strong>
 </p><br>
+<form class="" action="{% url 'book-index' %}?day={{day}}" method="post">
+{% csrf_token %}
 <div class="row">
-    <form class="" action="{% url 'book-index' %}?day={{day}}" method="post">
-    {% csrf_token %}
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #1 <br>
+            Room #0 <br>
             Occupancy: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
-                {% for time, r_one, r_two, r_three in rooms_time %}
-                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center {% if r_one %}booked{% endif %}">
-                    {{time}}<input class="hidden" type="checkbox" name="room1" value="{{forloop.counter0}}">
+                {% for time, r_zero, r_one, r_two in rooms_time %}
+                <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center {% if r_zero %}booked{% endif %}">
+                    {{time}}<input class="hidden" type="checkbox" name="room0" value="{{forloop.counter0}}">
                 </div>{% endfor %}
             </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #2 <br>
+            Room #1 <br>
             Occupancy: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
-                {% for time, r_one, r_two, r_three in rooms_time %}
+                {% for time, r_zero, r_one, r_two in rooms_time %}
                 <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
-                {% if r_two %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room2" value="{{forloop.counter0}}"></div>{% endfor %}
+                {% if r_one %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room1" value="{{forloop.counter0}}"></div>{% endfor %}
             </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-4">
         <div class="box">
-            Room #3 <br>
+            Room #2 <br>
             Occupancy: x people <br> <br>
             Room description <br> <hr>
             <div class="row timerow">
-                {% for time, r_one, r_two, r_three in rooms_time %}
+                {% for time, r_zero, r_one, r_two in rooms_time %}
                 <div class="col-xs-6 col-sm-4 col-md-12 col-lg-12 time text-center
-                {% if r_three %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room3" value="{{forloop.counter0}}"></div>{% endfor %}
+                {% if r_two %}booked{% endif %}">{{time}}<input class="hidden" type="checkbox" name="room2" value="{{forloop.counter0}}"></div>{% endfor %}
             </div>
         </div>
     </div>
 </div>
-<button class="btn btn-default" type="submit" name="day" value="{{day}}">Submit</button>
+<a href="{% url 'index' %}" class="button"><span class="glyphicon glyphicon-chevron-left"></span> go back</a>
+<button id="submit" class="button" disabled type="submit" name="day" value="{{day}}"><span class="glyphicon glyphicon-plus"></span> add reservation</button>
 </form>
 {# <img src="/static/busy.gif" width="25" height="25" alt="" />#}
 {# <button type="button" name="Click me" onclick="test();">Click me</button>#}

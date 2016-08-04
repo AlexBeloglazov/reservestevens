@@ -2,6 +2,8 @@ import datetime
 from book.models import Reservation
 from django.db.models import Q
 
+MAX_DAYS = 2
+
 def calc_day(d):
     MAX_HOUR = 16
     today = datetime.date.today()
@@ -15,15 +17,13 @@ def calc_day(d):
         d = d + 1
     return today + datetime.timedelta(days=d)
 
-# returns list of reservations in form [[day[0,1], room[1,2,3], period[1,2,3,4,5]], ...] for given UB# as integer
+# returns list of reservations in form [[day[0,1], room[0,1,2], period[0,1,2,3,4]], ...] for given UB# as integer
 def get_reserved(ub_number):
-    days = [Reservation.objects.filter(Q(date=calc_day(i).isoformat()), Q(period1=ub_number) | Q(period2=ub_number) |
-            Q(period3=ub_number) | Q(period4=ub_number) | Q(period5=ub_number)) for i in range(2)]
     reserved = []
-    for i,day in enumerate(days):
-        if len(day):
-            for reserv in day:
-                for j,reserved_by in enumerate(reserv.to_list()):
-                    if reserved_by == ub_number:
-                        reserved.append([i, reserv.room, j+1])
+    for i in range(MAX_DAYS):
+        day = Reservation.objects.filter(date=calc_day(i).isoformat(), ubnumber=ub_number)
+        for reserv in day:
+            it = [i]
+            it.extend(reserv.to_list())
+            reserved.append(it)
     return reserved
