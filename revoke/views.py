@@ -9,20 +9,11 @@ import book.views as v
 ubn = 1234
 
 def index(request):
-    if request.method == 'GET':
-        #-------- GET UB# from request #--------
-        # ubn = 1234
-        #---------------------------------------
-        reservations = helpers.get_reserved(ubn)
-        rend_reserv = []
-        for reserv in reservations:
-            rend_reserv.append( [helpers.calc_day(reserv[0]).strftime('%A, %B %d %Y'),
-                                v.ROOMS[reserv[1]], v.PERIODS[reserv[2]]])
-        return render(request, 'revoke/revoke-index.html', {'reservations': rend_reserv})
-    elif request.method == 'POST':
-        #-------- GET UB# from request #--------
-        # ubn = 1234
-        #---------------------------------------
+    #-------- GET UB# from request #--------
+    # ubn = 1234
+    #---------------------------------------
+    # firstly modify DB
+    if request.method == 'POST':
         if 'chosen' not in request.POST:
             return HttpResponseBadRequest('You did not choose anything')
         chosen = request.POST.getlist('chosen')
@@ -34,6 +25,15 @@ def index(request):
                                             room=room, period=period, ubnumber=int(ubn))[0].delete()
             except (ValueError, IndexError) as e:
                 return HttpResponseBadRequest('Bad POST Request')
-        return render(request, 'revoke/success.html', {'n': len(chosen)})
+    # get all reservations for student with ub# ubn
+    reservations = helpers.get_reserved(ubn)
+    rend_reserv = []
+    for reserv in reservations:
+        rend_reserv.append( [helpers.calc_day(reserv[0]).strftime('%A, %B %d %Y'),
+                            v.ROOMS[reserv[1]], v.PERIODS[reserv[2]]])
+    if request.method == 'GET':
+        return render(request, 'revoke/revoke-index.html', {'reservations': rend_reserv})
+    elif request.method == 'POST':
+        return render(request, 'revoke/revoke-index.html', {'reservations': rend_reserv, 'n': len(chosen)})
     else:
         return HttpResponseBadRequest('Bad Request')

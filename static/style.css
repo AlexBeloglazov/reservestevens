@@ -19,37 +19,33 @@ body {
     font-size: 11px;
     height: 40px;
     line-height: 40px;
-    border: 1px solid #d5ddd0;
-    /*border-radius: 1px;*/
+    color: #3c763d;
+    border: 1px solid #c9dbb9;
     margin: 1px -1px;
     /*padding: 10px 5px;*/
-    /*background-color: #F7FFF2;*/
-    background-color: rgb(232, 251, 230);
-
-    /*#fafafa;*/
+    color: #6b916b;
+    background-color: #dff0d8;
     cursor: default;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
     -o-user-select: none;
     user-select: none;
-
 }
 
 .booked {
-    /*background-color: #ffe6e6;
-    border-color: #ddb4b4;*/
-    background-color: #f9dfdf;
-    border-color: #ddb9b9;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
     cursor: not-allowed;
 }
 
 .selected {
     /*box-shadow: 0px 0px 1px #7FB85C;*/
-    border: 1px #B9DBAD solid;
+    border: 1px #a9c194 solid;
     /*outline: 1px solid #dddddd;*/
     /*background-color: #E8F2E1;*/
-    background-color: rgb(216, 237, 215);
+    background-color: #b4dba3;
     z-index: 100;
 }
 
