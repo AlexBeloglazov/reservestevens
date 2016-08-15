@@ -36,7 +36,7 @@
         <button class="button" disabled type="submit" name="button"><span class="glyphicon glyphicon-trash"></span> remove</button>
     </form>
     {% else %}
-    <p>You do not have any reservations at this moment. I you would like to make one please click button below.</p><br>
+    <p>You do not have any reservations at this moment. If you would like to make one please click button below.</p><br>
     <a href="{% url 'index' %}" class="button"><span class="glyphicon"></span> make reservation</a>
     {% endif %}
 {% endblock %}

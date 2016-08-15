@@ -10,14 +10,14 @@
     Our system says you already reached maximum limit of <strong>{{already_reserved}}</strong> reservations per person.
 </p>
 <p>
-    To continue you would have to <u>cancel</u> one of your previous reservations.
+    To continue you need to <u>cancel</u> one of your previous reservations.
     If you would like to do so, please click the button below.
 </p><br><br>
 <a href="{% url 'revoke-index' %}" class="button">my reservations</a>
 {% endif %}
 {% if already_reserved < 2 %}
 <p>
-    Please choose any available time slot and click "Submit" button to complete reservation.
+    Please choose any available time slot and click "Add Reservation" button to complete reservation.
 </p>
 <p>
     Time slots you can reserve: <strong id="max_reserv">{{available}}</strong>
@@ -67,7 +67,6 @@
 <button class="button" disabled type="submit" name="day" value="{{day}}"><span class="glyphicon glyphicon-plus"></span> add reservation</button>
 </form><br>
 {# <img src="/static/busy.gif" width="25" height="25" alt="" />#}
-{# <button type="button" name="Click me" onclick="test();">Click me</button>#}
 {% endif %}
 {% endblock %}
 

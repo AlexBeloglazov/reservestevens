@@ -10,11 +10,10 @@ import helpers
 MAX_RESERVATIONS = 2
 DELTAS = ['0', '1']
 ROOMS = ['Room #0', 'Room #1', 'Room #2']
-PERIODS = [ '8:00 AM - 10:00 AM',
-            '10:00 AM - 12:00 AM',
-            '12:00 AM - 2:00 PM',
-            '2:00 PM - 4:00 PM',
-            '4:00 PM - 6:00 PM' ]
+PERIODS = [ '8:30 AM - 10:30 AM',
+            '10:30 AM - 12:30 AM',
+            '12:30 AM - 2:30 PM',
+            '2:30 PM - 4:30 PM',]
 
 # resp.set_cookie('ubname', '7058034')
 
@@ -76,7 +75,7 @@ def index(request):
                         Reservation(date=date.isoformat(), room=i, period=period, ubnumber=ubn).save()
         except ValueError:
             return HttpResponseBadRequest('Bad POST request')
-        print(r_render)
+        # print(r_render)
         return render(request, 'book/success.html', {'date': date.strftime('%A, %B %d %Y'), 'reserved': r_render})
     else:
         return HttpResponseBadRequest("Bad Request")
