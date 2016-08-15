@@ -22,19 +22,26 @@ def index(request):
         #-------- GET UB# from request #--------
         ubn = 1234
         #---------------------------------------
+        # requested day as delta (difference between today and reservation day in days)
         delta = request.GET.get('day', -1)
+        # check if wanting day is allowed to reserve
         if delta not in DELTAS:
             return HttpResponseBadRequest("Bad GET Request")
         # calculate a date of requested day
         date = helpers.calc_day(int(delta))
-        # get all rows from DB for requested date
+        # get all reservations from DB for requested date
         reservations = Reservation.objects.filter(date=date.isoformat())
+        # rooms will be a list containing three lists, one for each room
         rooms = []
         # looping through all rooms
         for i in range(len(ROOMS)):
+            # appending list for i-th room
             rooms.append([])
+            # looping through all periods possible for room
             for period in range(len(PERIODS)):
+                # appending either True or False based on period availability
                 rooms[i].append(reservations.filter(room=i, period=period).exists())
+        # number of reservations person has
         already_reserved = len(helpers.get_reserved(ubn))
         context = { 'date': date.strftime('%A, %B %d %Y'),
                     'day': delta,
@@ -61,6 +68,7 @@ def index(request):
         date = helpers.calc_day(int(delta))
         # get all reservations from DB for requested date
         reservations = Reservation.objects.filter(date=date.isoformat())
+        # list will contain all reservations made. Will be used in template
         r_render = []
         try:
             for i, room in enumerate(rooms):
