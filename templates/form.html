@@ -1,0 +1,7 @@
+{% for field in fields %}
+<div class="form-group">
+    <label for="{{field.name}}">{{field.label}}</label>
+    <input class="form-control" required="true" type="{{field.type}}"
+     name="{{field.name}}" placeholder="{{field.placeholder}}" value="{{field.value}}" id="{{field.name}}">
+</div>
+{% endfor %}

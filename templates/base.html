@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}Stevens breakout room reservation system{% endblock %}</title>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -23,7 +23,12 @@
             </div>
         </nav>
         <div class="container">
-            <h3>Stevens Breakout Room Reservation System</h3><hr>
+            <h3>Stevens Breakout Room Reservation System</h3>
+            <div class="text-right" style="border-top: solid 1px rgb(225,225,225); font-size:110%; padding: 0px 0px; font-variant:small-caps;">
+                {% if user.username %}
+                <span style="border-radius: 1px;">you logged in as <strong>{{user}}</strong> | <a href="{% url 'logout' %}">logout</a></span>
+                {% endif %}
+            </div><br>
             {% block content %}{% endblock %}
             {% block limits%}{% endblock %}
         </div>

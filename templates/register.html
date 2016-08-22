@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Log in page - {{ block.super }} }}{% endblock %}
+{% block content %}
+<br>
+<div class="row">
+    <div class="col-xs-offset-1 col-xs-10 col-sm-offset-3 col-sm-6 box" >
+        <h3 class="text-center">Register an account</h3>
+        <h6 class="text-danger text-center">{{error}}</h6><br>
+        <form class="" action="" method="post">
+            {% csrf_token %}
+            {% include "form.html" %}
+            <button type="submit" class="button">register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -22,13 +22,13 @@
 <p>
     Time slots you can reserve: <strong id="max_reserv">{{available}}</strong>
 </p><br>
-<form class="" action="{% url 'book-index' %}?day={{day}}" method="post">
+<form class="" action="{% url 'book-index' day%}" method="post">
 {% csrf_token %}
 <div class="row">
     <div class="col-lg-4 col-md-4">
         <div class="box">
             {{rooms.0}} <br>
-            Occupancy: x people <br><br>
+            Capacity: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}
@@ -41,7 +41,7 @@
     <div class="col-lg-4 col-md-4">
         <div class="box">
             {{rooms.1}} <br>
-            Occupancy: x people <br><br>
+            Capacity: x people <br><br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}
@@ -53,7 +53,7 @@
     <div class="col-lg-4 col-md-4">
         <div class="box">
             {{rooms.2}} <br>
-            Occupancy: x people <br> <br>
+            Capacity: x people <br> <br>
             Room description <br> <hr>
             <div class="row timerow">
                 {% for time, r_zero, r_one, r_two in rooms_time %}

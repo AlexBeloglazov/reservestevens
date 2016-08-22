@@ -4,5 +4,5 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='book-index'),
+    url(r'^(?P<delta>[0,1])$', views.index, name='book-index'),
 ]

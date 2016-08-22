@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse, Http404, HttpResponseBadRequest
+from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
+from django.http import HttpResponse, Http404, HttpResponseBadRequest, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 import datetime
 
@@ -15,18 +17,11 @@ PERIODS = [ '8:30 AM - 10:30 AM',
             '12:30 AM - 2:30 PM',
             '2:30 PM - 4:30 PM',]
 
-# resp.set_cookie('ubname', '7058034')
-
-def index(request):
+@login_required
+def index(request, delta):
     if request.method == "GET":
-        #-------- GET UB# from request #--------
-        ubn = 1234
-        #---------------------------------------
-        # requested day as delta (difference between today and reservation day in days)
-        delta = request.GET.get('day', -1)
-        # check if wanting day is allowed to reserve
-        if delta not in DELTAS:
-            return HttpResponseBadRequest("Bad GET Request")
+        # get ubnumber of user
+        ubn = request.user.ubstudent.ubnumber
         # calculate a date of requested day
         date = helpers.calc_day(int(delta))
         # get all reservations from DB for requested date
@@ -41,7 +36,7 @@ def index(request):
             for period in range(len(PERIODS)):
                 # appending either True or False based on period availability
                 rooms[i].append(reservations.filter(room=i, period=period).exists())
-        # number of reservations person has
+        # number of reservations for logged user
         already_reserved = len(helpers.get_reserved(ubn))
         context = { 'date': date.strftime('%A, %B %d %Y'),
                     'day': delta,
@@ -51,16 +46,13 @@ def index(request):
                     'available': MAX_RESERVATIONS - already_reserved, }
         return render(request, 'book/book-index.html', context)
     elif request.method == "POST":
-        #-------- GET UB# from request #--------
-        ubn = 1234
-        #---------------------------------------
-        # print(request.POST)
+        # get ubnumber of user
+        ubn = request.user.ubstudent.ubnumber
         # just in case handle empty POST request
         if 'room0' not in request.POST and 'room1' not in request.POST and 'room2' not in request.POST:
             return HttpResponseBadRequest('You did not choose any time frame')
         # parse POST request and get list of chosen periods for every room
         rooms = [request.POST.getlist('room0'), request.POST.getlist('room1'), request.POST.getlist('room2')]
-        delta = request.POST.get('day', -1)
         if (sum([len(i) for i in rooms]) + len(helpers.get_reserved(ubn))) > MAX_RESERVATIONS:
             return HttpResponseBadRequest('Oops... something bad happened. You try to reserve too much')
         if delta not in DELTAS:
@@ -78,12 +70,11 @@ def index(request):
                     # one last check to make sure everything goes smoothly
                     if reservations.filter(room=i, period=int(period)).exists():
                         return HttpResponseBadRequest('Already reserved')
-                    # create new record for a room
+                    # create new reservation for a room
                     else:
-                        Reservation(date=date.isoformat(), room=i, period=period, ubnumber=ubn).save()
+                        request.user.ubstudent.reservation_set.create(date=date.isoformat(), room=i, period=period)
         except ValueError:
             return HttpResponseBadRequest('Bad POST request')
-        # print(r_render)
         return render(request, 'book/success.html', {'date': date.strftime('%A, %B %d %Y'), 'reserved': r_render})
     else:
         return HttpResponseBadRequest("Bad Request")

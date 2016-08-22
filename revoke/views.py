@@ -1,18 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.decorators import login_required
 from .models import Reservation
 
 import helpers
 import book.views as v
 
-
-ubn = 1234
-
+@login_required
 def index(request):
-    #-------- GET UB# from request #--------
-    # ubn = 1234
-    #---------------------------------------
-    # firstly modify DB
+    ubn = request.user.ubstudent.ubnumber
+    # cancelling chosen reservations
     if request.method == 'POST':
         if 'chosen' not in request.POST:
             return HttpResponseBadRequest('You did not choose anything')
@@ -22,7 +19,7 @@ def index(request):
             try:
                 day, room, period = reserved[int(i)]
                 Reservation.objects.filter( date=helpers.calc_day(day).isoformat(),
-                                            room=room, period=period, ubnumber=int(ubn))[0].delete()
+                                            room=room, period=period, ubnumber=ubn)[0].delete()
             except (ValueError, IndexError) as e:
                 return HttpResponseBadRequest('Bad POST Request')
     # get all reservations for student with ub# ubn
