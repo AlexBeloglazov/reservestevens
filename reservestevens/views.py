@@ -20,6 +20,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 def register(request):
+    # list of fields that will be displayed on register form
     fields = [  {'name': 'username', 'type': 'text', 'label': 'UBIT name (will be your username):', 'value': ''},
                 {'name': 'ubnumber', 'type': 'text', 'label': 'UB number:', 'value': ''},
                 {'name': 'email', 'type': 'email', 'label': 'Email:', 'value': ''},
@@ -28,8 +29,8 @@ def register(request):
         return render(request, 'register.html', {'fields': fields, })
     elif request.method == 'POST':
         # get an user object based on entered data
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
         try:
             user = User.objects.get(username=username, email=request.POST['email'], ubstudent__ubnumber=request.POST['ubnumber'])
         except (User.DoesNotExist, ValueError):
@@ -47,13 +48,14 @@ def register(request):
         return HttpResponseRedirect(reverse('index'))
 
 def login_user(request):
+    # list of fields that will be displayed on login form
     fields = [  {'name': 'username', 'type': 'text', 'label': 'Username:', 'value': ''},
                 {'name': 'password', 'type': 'password', 'label': 'Password:', 'value': ''}]
     if request.method == 'GET':
         return render(request, 'login.html', {'fields': fields})
     elif request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
         # authenticate user
         user = authenticate(username=username, password=password)
         if user is not None:

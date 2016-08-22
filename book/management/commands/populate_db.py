@@ -13,7 +13,7 @@ class Command(BaseCommand):
             return None
         with open(args[0], 'r') as f:
             for line in f:
-                if line[0] == '#':
+                if line[0] == '#' or not line.strip():
                     continue
                 ubnumber, ubitname, email = line.split()
                 ubnumber = int(ubnumber)
