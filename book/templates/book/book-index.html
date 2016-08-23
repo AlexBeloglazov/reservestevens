@@ -13,7 +13,7 @@
     To continue you need to <u>cancel</u> one of your previous reservations.
     If you would like to do so, please click the button below.
 </p><br><br>
-<a href="{% url 'revoke-index' %}" class="button">my reservations</a>
+<a href="{% url 'index' %}" class="button">my reservations</a>
 {% endif %}
 {% if already_reserved < 2 %}
 <p>
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div><br>
-<a href="{% url 'index' %}" class="button"><span class="glyphicon glyphicon-chevron-left"></span> go back</a>
+<a href="{% url 'index' %}" class="button">go back</a>
 <button class="button" disabled type="submit" name="day" value="{{day}}"><span class="glyphicon glyphicon-plus"></span> add reservation</button>
 </form><br>
 {# <img src="/static/busy.gif" width="25" height="25" alt="" />#}

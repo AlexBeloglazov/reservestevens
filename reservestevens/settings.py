@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'book.apps.BookConfig',
-    'revoke.apps.RevokeConfig',
 ]
 
 MIDDLEWARE_CLASSES = [

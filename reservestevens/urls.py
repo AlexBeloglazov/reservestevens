@@ -25,5 +25,5 @@ urlpatterns = [
     url(r'^accounts/login/$', views.login_user, name='login'),
     url(r'^accounts/logout/$', views.logout_user, name='logout'),
     url(r'^book/', include('book.urls')),
-    url(r'^revoke/', include('revoke.urls')),
+    url(r'^revoke/', views.revoke, name='revoke'),
 ]

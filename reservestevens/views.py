@@ -4,20 +4,42 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from book.models import UBStudent
+from book.models import UBStudent, Reservation
 
 import datetime
 import helpers
+import book.views as v
 
-# Create your views here.
-# Functions that take user request and return html page back
 
 @login_required
 def index(request):
     first = helpers.calc_day(0).strftime('%A, %B %d %Y')
     second = helpers.calc_day(1).strftime('%A, %B %d %Y')
-    context = {'first' : first, 'second': second}
-    return render(request, 'index.html', context)
+    # list of current reservations
+    reservations = helpers.get_reserved(request.user.ubstudent.ubnumber)
+    reserv = []
+    # list of current reservations for template
+    for reserv in reservations:
+        reserv.append([helpers.calc_day(reserv[0]).strftime('%A, %B %d %Y'), v.ROOMS[reserv[1]], v.PERIODS[reserv[2]]])
+    return render(request, 'index.html', {'first' : first, 'second': second, 'reservations': reserv})
+
+@login_required
+def revoke(request):
+    ubn = request.user.ubstudent.ubnumber
+    # cancelling chosen reservations
+    if request.method == 'POST':
+        if 'chosen' not in request.POST:
+            return HttpResponseBadRequest('You did not choose anything')
+        chosen = request.POST.getlist('chosen')
+        reserved = helpers.get_reserved(ubn)
+        for i in chosen:
+            try:
+                day, room, period = reserved[int(i)]
+                Reservation.objects.filter( date=helpers.calc_day(day).isoformat(),
+                                            room=room, period=period, ubnumber=ubn)[0].delete()
+            except (ValueError, IndexError) as e:
+                return HttpResponseBadRequest('Bad POST Request')
+        return HttpResponseRedirect(reverse('index'))
 
 def register(request):
     # list of fields that will be displayed on register form
