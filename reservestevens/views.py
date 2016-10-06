@@ -17,11 +17,11 @@ def index(request):
     second = helpers.calc_day(1).strftime('%A, %B %d %Y')
     # list of current reservations
     reservations = helpers.get_reserved(request.user.ubstudent.ubnumber)
-    reserv = []
+    reserv_r = []
     # list of current reservations for template
     for reserv in reservations:
-        reserv.append([helpers.calc_day(reserv[0]).strftime('%A, %B %d %Y'), v.ROOMS[reserv[1]], v.PERIODS[reserv[2]]])
-    return render(request, 'index.html', {'first' : first, 'second': second, 'reservations': reserv})
+        reserv_r.append([helpers.calc_day(reserv[0]).strftime('%A, %B %d %Y'), v.ROOMS[reserv[1]], v.PERIODS[reserv[2]]])
+    return render(request, 'index.html', {'first' : first, 'second': second, 'reservations': reserv_r})
 
 @login_required
 def revoke(request):
